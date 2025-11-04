@@ -53,7 +53,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Get AWS Credentials
-        uses: your-org/get-aws-credentials@v1
+        uses: TRI-Actions/get-aws-credentials@v1
         with:
           account-id: 222222222222
 
