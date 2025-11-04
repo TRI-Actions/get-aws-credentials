@@ -3,24 +3,9 @@
 A reusable GitHub Action that assumes an **IAM role chain** using OpenID Connect (OIDC) to access AWS resources across accounts.
 
 This action:
-1. Uses OIDC to authenticate into a **service account** role in the central AWS account.
+1. Uses OIDC to authenticate into a **federated service role** in the central AWS account.
 2. Assumes a **target role** in the specified destination AWS account.
 3. Exports short-lived AWS credentials automatically to all subsequent workflow steps.
-
----
-
-## How It Works
-
-```
-GitHub → OIDC → Service Account Role (in central AWS account)
-         → Assume Role → Target Account Role
-```
-
-The service account role name follows the pattern:
-```
-GHAFederatedRole-<account-id>
-```
-and the target role in the destination account is specified by `target-role-name`.
 
 ---
 
@@ -30,6 +15,7 @@ and the target role in the destination account is specified by `target-role-name
 |------|--------------|-----------|----------|
 | `account-id` | AWS Account ID of the target environment | Yes | — |
 | `region` | AWS Region | No | `us-east-1` |
+| `federated-role-name` | Base name of the federated service role in the central account | No | `GHAFederatedRole` |
 | `target-role-name` | Name of the target role to assume in the target account | No | `DefaultCrossAccountRole` |
 
 ---
@@ -56,6 +42,7 @@ jobs:
         uses: TRI-Actions/get-aws-credentials@v1
         with:
           account-id: 222222222222
+          federated-role-name: CustomFederatedRole  # optional override
 
       - name: Verify AWS identity
         run: aws sts get-caller-identity
