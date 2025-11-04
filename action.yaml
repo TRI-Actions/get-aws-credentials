@@ -16,7 +16,7 @@ runs:
   using: "composite"
   steps:
     - name: Configure AWS credentials with OIDC in service account
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@v5
       with:
         role-to-assume: arn:aws:iam::371027173325:role/GHAFederatedRole-${{ inputs.account-id }}
         aws-region: ${{ inputs.region }}
